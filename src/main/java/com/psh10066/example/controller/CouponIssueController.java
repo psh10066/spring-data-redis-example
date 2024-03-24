@@ -21,4 +21,13 @@ public class CouponIssueController {
         couponIssueService.issue(request.couponId(), request.userId());
         return true;
     }
+
+    /**
+     * lock을 이용한 동시성 처리
+     */
+    @PostMapping("/issue-lock")
+    public boolean issueWithLock(@RequestBody CouponIssueRequest request) {
+        couponIssueService.issueWithLock(request.couponId(), request.userId());
+        return true;
+    }
 }
