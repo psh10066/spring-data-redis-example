@@ -55,6 +55,18 @@ public class CouponIssueService {
         });
     }
 
+    /**
+     * lua script를 이용한 동시성 처리
+     */
+    public void issueWithLuaScript(long couponId, long userId) {
+        Coupon coupon = Coupon.getTestInstance(couponId);
+        if (!coupon.availableIssueDate()) {
+            throw new RuntimeException("발급 가능한 날짜가 아닙니다.");
+        }
+        int totalQuantity = coupon.getTotalQuantity() != null ? coupon.getTotalQuantity() : Integer.MAX_VALUE;
+        redisRepository.issueRequest(couponId, userId, totalQuantity);
+    }
+
     @SneakyThrows
     private void issueRequest(long couponId, long userId) {
         CouponIssueInfoDTO couponIssueInfoDTO = new CouponIssueInfoDTO(couponId, userId);

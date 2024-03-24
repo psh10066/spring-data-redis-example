@@ -30,4 +30,13 @@ public class CouponIssueController {
         couponIssueService.issueWithLock(request.couponId(), request.userId());
         return true;
     }
+
+    /**
+     * lua script를 이용한 동시성 처리
+     */
+    @PostMapping("/issue-lua-script")
+    public boolean issueWithLuaScript(@RequestBody CouponIssueRequest request) {
+        couponIssueService.issueWithLuaScript(request.couponId(), request.userId());
+        return true;
+    }
 }
