@@ -29,7 +29,7 @@ public class Coupon {
 
     public static Coupon getTestInstance(long couponId) {
         LocalDateTime now = LocalDateTime.now();
-        return new Coupon(couponId, 100, now.minusDays(1), now.plusDays(1));
+        return new Coupon(couponId, 1500, now.minusDays(1), now.plusDays(1));
     }
 
     public boolean availableIssueDate() {
