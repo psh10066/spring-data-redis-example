@@ -16,14 +16,16 @@ public class CouponIssueService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final RedisRepository redisRepository;
+    private final CouponCacheService couponCacheService;
     private final CouponIssueRedisService couponIssueRedisService;
     private final DistributeLockExecutor distributeLockExecutor;
+
 
     /**
      * 동시성 처리 X
      */
     public void issue(long couponId, long userId) {
-        Coupon coupon = Coupon.getTestInstance(couponId);
+        Coupon coupon = couponCacheService.getCoupon(couponId);
         if (!coupon.availableIssueDate()) {
             throw new RuntimeException("발급 가능한 날짜가 아닙니다.");
         }
@@ -40,7 +42,7 @@ public class CouponIssueService {
      * lock을 이용한 동시성 처리
      */
     public void issueWithLock(long couponId, long userId) {
-        Coupon coupon = Coupon.getTestInstance(couponId);
+        Coupon coupon = couponCacheService.getCoupon(couponId);
         if (!coupon.availableIssueDate()) {
             throw new RuntimeException("발급 가능한 날짜가 아닙니다.");
         }
@@ -59,7 +61,7 @@ public class CouponIssueService {
      * lua script를 이용한 동시성 처리
      */
     public void issueWithLuaScript(long couponId, long userId) {
-        Coupon coupon = Coupon.getTestInstance(couponId);
+        Coupon coupon = couponCacheService.getCoupon(couponId);
         if (!coupon.availableIssueDate()) {
             throw new RuntimeException("발급 가능한 날짜가 아닙니다.");
         }
