@@ -1,0 +1,30 @@
+POST {{host}}/issue
+Accept: application/json
+Content-Type: application/json
+
+{
+  "couponId": 1,
+  "userId": 11
+}
+
+###
+
+POST {{host}}/issue-lock
+Accept: application/json
+Content-Type: application/json
+
+{
+  "couponId": 2,
+  "userId": 11
+}
+
+###
+
+POST {{host}}/issue-lua-script
+Accept: application/json
+Content-Type: application/json
+
+{
+  "couponId": 3,
+  "userId": 11
+}
